@@ -11,7 +11,7 @@
 	        //默认分隔符
 	        var f = sp || "%",
 	            //动态创建函数
-	            fn = new Function("var p=[],my=this,data=me,print=function(){p.push.apply(p,arguments);};p.push('" +
+	            fn = new Function("var p=[],my=this,data=my,print=function(){p.push.apply(p,arguments);};p.push('" +
 	                // Convert the template into pure JavaScript
 	                tmpl
 	                .replace(/[\r\t\n]/g, " ")
