@@ -35,7 +35,7 @@
                 })();
         return data ? fn.call(data) : fn;
     };
-})(window.jQuery || window);
+	})(window.jQuery || window);
 
 基本示例：
 
