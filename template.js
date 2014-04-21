@@ -11,10 +11,10 @@
  * The Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA02139, USA
  */
 (function($) {
-    $.template = function(tmpl, data, sp) {
+    var tmplCache={}, fnCache={}, guid=0, toString = Object.prototype.toString, compile = function( tmpl, sp ){
         //默认分隔符
         var f = sp || "%",
-            //动态创建函数
+            //动态创建函数，并增加数据源引用（data/my）
             fn = new Function("var p=[],my=this,data=my,print=function(){p.push.apply(p,arguments);};p.push('" +
                 // Convert the template into pure JavaScript
                 tmpl
@@ -26,7 +26,17 @@
                 .split("\t").join("');")
                 .split(f + ">").join("p.push('")
                 .split("\r").join("\\'") + "');return p.join('');");
-        //返回
+        return fn;
+    };
+    //对外接口
+    $.template = function(tmpl, data, sp) {
+        sp = sp||"%";
+        var fn = toString.call(tmpl) === "[object Function]" ? tmpl
+                : !/\W/.test(tmpl) ? fnCache[tmpl+sp] = fnCache[tmpl+sp] || compile(document.getElementById(tmpl).innerHTML, sp)
+                : (function(){
+                    for(var id in tmplCache)if( tmplCache[id] === tmpl && id.slice(-sp.length) === sp ) return fnCache[id];
+                    return (tmplCache[++guid+sp] = tmpl, fnCache[guid+sp] = compile(tmpl, sp));
+                })();
         return data ? fn.call(data) : fn;
     };
-})(jQuery || window);
+})(window.jQuery || window);

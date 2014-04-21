@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>tmplete 测试用例</title>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.12.0.css">
+<script src="template.js"></script>
+<script src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<script type="text/html" id="item_tmpl">
+<%for(var x in data.list){%><li><%=x%>:<%=data.list[x]%></li><%}%>
+</script>
+<script>
+test( "极简模版引擎测试用例", 13, function() {
+	var templ, ret, $ = window.jQuery || window, a, getCost = function(){
+		return " cost:"+ (new Date() - a);
+	};
+
+	templ = "this is a easy <%=this.name%>.";
+	a = new Date();
+	ret = $.template(templ, {name:"demo"});
+	ok( ret === "this is a easy demo.", "基本调用测试"+ getCost());
+
+	a = new Date();
+	ret = $.template(templ, {name:"demo2"});
+	ok( ret === "this is a easy demo2.", "基本调用测试[重复测试]"+ getCost());
+
+	templ = "this is a easy <#=this.name#> too.";
+	a = new Date();
+	ret = $.template(templ, {name:"demo"}, "#");
+	ok( ret === "this is a easy demo too.", "自定义分隔符测试"+ getCost());
+
+	a = new Date();
+	ret = $.template(templ, {name:"demo2"}, "#");
+	ok( ret === "this is a easy demo2 too.", "自定义分隔符测试[重复测试]"+ getCost());
+
+	templ = "this is a <%=my.type%> <%=data.name%> too.";
+	a = new Date();
+	ret = $.template(templ, {name:"demo", type:"easy"});
+	ok( ret === "this is a easy demo too.", "数据源变量别称测试"+ getCost());
+
+	a = new Date();
+	ret = $.template(templ, {name:"demo2", type:"easy"});
+	ok( ret === "this is a easy demo2 too.", "数据源变量别称测试[重复测试]"+ getCost());
+
+	templ = "<%=my.name%>有<%=my.getNum(my.name)%>个编辑器。";
+	var getNum = function(name){
+		return {"我":"俩","他":"三"}[name];
+	};
+	a = new Date();
+	ret = $.template(templ, {name:"我", getNum:getNum});
+	ok( ret === "我有俩个编辑器。", "自定义函数测试"+ getCost());
+
+	a = new Date();
+	ret = $.template(templ, {name:"他", getNum:getNum});
+	ok( ret === "他有三个编辑器。", "自定义函数测试[重复测试]"+ getCost());
+
+	templ = "<%for(var i=0;i<data.length;i++){%><%=i+1%>、<%=data[i]%><%}%>";
+	a = new Date();
+	ret = $.template(templ, ["精简","易用"]);
+	ok( ret === "1、精简2、易用", "js语句调用测试"+ getCost());
+
+	a = new Date();
+	ret = $.template(templ, ["easy","powerful"]);
+	ok( ret === "1、easy2、powerful", "js语句调用测试[重复测试]"+ getCost());
+
+	a = new Date();
+	ret = $.template("item_tmpl", {list:{"name":"zjcn5205","country":"china"}});
+	ok( ret === ' <li>name:zjcn5205</li><li>country:china</li> ', "从页面读取模版"+ getCost());
+
+	a = new Date();
+	ret = $.template("item_tmpl", {list:{"name":"zjcn5205","country":"china"}});
+	ok( ret === ' <li>name:zjcn5205</li><li>country:china</li> ', "从页面读取模版[重复测试]"+ getCost());
+
+	templ = "this is a easy <%=this.name%>!";
+	var fn = $.template( templ );
+	a = new Date();
+	ret = $.template( fn, {name:"demo"});
+	//等价于：
+	//ret = fn.call({name:"demo"});
+	ok( ret === "this is a easy demo!", "预编译调用测试"+ getCost());
+});
+</script>
+</body>
+</html>
