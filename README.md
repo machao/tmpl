@@ -30,8 +30,8 @@
         var fn = toString.call(tmpl) === "[object Function]" ? tmpl
                 : !/\W/.test(tmpl) ? fnCache[tmpl+sp] = fnCache[tmpl+sp] || compile(document.getElementById(tmpl).innerHTML, sp)
                 : (function(){
-                    for(var id in tmplCache)if( tmplCache[id] === tmpl && id.slice(-sp.length) === sp ) return fnCache[id];
-                    return (tmplCache[++guid+sp] = tmpl, fnCache[guid+sp] = compile(tmpl, sp));
+                    for(var id in tmplCache)if(tmplCache[id] === tmpl) return fnCache[id];
+                    return (tmplCache[++guid] = tmpl, fnCache[guid] = compile(tmpl, sp));
                 })();
         return data ? fn.call(data) : fn;
     };
