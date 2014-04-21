@@ -81,3 +81,13 @@ js语句调用：
 	//js代码：
 	ret = $.template("item_tmpl", {list:{"name":"zjcn5205","country":"china"}});
 	//ret: "<li>name:zjcn5205</li><li>country:china</li>" //已经忽略前后空格
+
+模版预编译
+	
+	var templ = "this is a easy <%=this.name%>.", data = {name : "demo"};
+	//注：预编译暂时不支持自定义分割符号
+	var fn = $.template( templ );
+	//编译后返回一个js函数，该函数可以重新交给模版引擎使用，也可以独立调用
+	var ret = $.template(fn, data);
+	//等价于 var ret = fn.call( data );
+	//ret:  "this is a easy demo."
