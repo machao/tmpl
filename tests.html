@@ -28,7 +28,7 @@ test( "极简模版引擎测试用例", 13, function() {
 	ret = $.template(templ, {name:"demo2"});
 	ok( ret === "this is a easy demo2.", "基本调用测试[重复测试]"+ getCost());
 
-	templ = "this is a easy <#=this.name#> too.";
+	templ = "this is a easy <#= this.name #> too.";
 	a = new Date();
 	ret = $.template(templ, {name:"demo"}, "#");
 	ok( ret === "this is a easy demo too.", "自定义分隔符测试"+ getCost());

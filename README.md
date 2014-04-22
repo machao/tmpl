@@ -17,7 +17,6 @@
                 // Convert the template into pure JavaScript
                 tmpl
                 .replace(/[\r\t\n]/g, " ")
-                .replace(new RegExp("<" + f + "=\\s*([^\\t]*?);*\\s*" + f + ">", "g"), "<" + f + "print($1);" + f + ">")
                 .split("<" + f).join("\t")
                 .replace(new RegExp("((^|" + f + ">)[^\\t]*)'", "g"), "$1\r")
                 .replace(new RegExp("\\t=(.*?)" + f + ">", "g"), "',$1,'")
