@@ -4,6 +4,8 @@
 极简js模版引擎，30行代码，支持自定义分隔符、js语法、变量直接输出等功能。
 基于大牛的引擎修改：http://ejohn.org/blog/javascript-micro-templating/
 
+另有一款纯原创极简js填充引擎：[format](https://github.com/machao/format/ "极简JS模版填充引擎 format")
+
 源码：
 
 	(function($) {
