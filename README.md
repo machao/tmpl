@@ -92,3 +92,10 @@ js语句调用：
 	var ret = $.template(fn, data);
 	//等价于 var ret = fn.call( data );
 	//ret:  "this is a easy demo."
+
+关于性能
+
+该模板在现代浏览器中比不上doT、artTemplate等知名模板，但在IE中表现突出，综合性价比最好。如果你是有类似 jsp等编程经验的话，本模板的语法你将会非常熟悉，学习成本比较低。另外，请记得，模板源码只有三十行。
+
+了解性能请移步速度测试用例： [高频测试](http://pimg1.126.net/mail/template/speed/test.html?len=100&loop=10000) 和 [低频测试。](http://pimg1.126.net/mail/template/speed/test.html?len=50&loop=100)
+*测试用例中，为了名字不跟其他模板冲突，本模板名字显示为 **mcTemplate**.*
